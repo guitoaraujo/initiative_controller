@@ -60,6 +60,17 @@ ipcMain.handle('deleteCharacter', (event, index) => {
   return true;
 });
 
+// Savar persoangens selecionados para o encontro
+ipcMain.handle('saveSelectedCharacters', async (event, selectedCharacters) => {
+  store.set('selectedCharacters', selectedCharacters);
+  return true;
+});
+
+// Carregar personagens selecionados para o encontro
+ipcMain.handle('loadSelectedCharacters', async () => {
+  return store.get('selectedCharacters', []);
+});
+
 // Fechar o app quando todas as janelas forem fechadas (exceto no Mac)
 app.on('window-all-closed', () => {
   app.quit();

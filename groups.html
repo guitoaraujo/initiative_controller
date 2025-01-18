@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grupos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .character-list {
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Centraliza os cards horizontalmente */
+        flex-wrap: wrap; /* Permite que os cards ocupem múltiplas linhas, se necessário */
+        gap: 15px; /* Adiciona espaçamento entre os cards */
+    }
+
+    .character-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 250px; /* Largura fixa para todos os cards */
+    }
+
+    .character-info {
+      display: flex;
+      align-items: center;
+    }
+
+    .character-info img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .character-info div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .character-info div span {
+      font-size: 14px;
+      color: #555;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Grupos</h1>
+
+  <div id="character-list" class="character-list">
+    <!-- Os personagens serão carregados aqui dinamicamente -->
+  </div>
+
+    <button id="start-encounter-btn">Iniciar Encontro</button>
+    <!-- Botão de retorno ao menu -->
+    <div style="margin: 10px;">
+        <button id="return-to-menu-btn" style="background-color: #6c757d;">Retornar ao Menu</button>
+    </div>
+
+  <script src="groups.js"></script>
+</body>
+</html>

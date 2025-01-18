@@ -33,17 +33,18 @@
 </head>
 <body>
   <div class="menu">
-    <h1>Menu Principal</h1>
+    <h1>Controlador de Iniciativa do Negão</h1>
+    <h4>Crie personagens, crie grupos com eles e depois crie encontros!</h4>
     <button id="characters-btn">Personagens</button>
-    <button id="encounters-btn">Começar Encontro</button>
+    <button id="groups-btn">Grupos</button>
   </div>
 
   <script>
     document.getElementById("characters-btn").addEventListener("click", () => {
       window.location.href = "characters.html"; // Redireciona para a tela de personagens
     });
-    document.getElementById("encounters-btn").addEventListener("click", () => {
-      window.location.href = "encounters.html"; // Redireciona para a tela de encontros
+    document.getElementById("groups-btn").addEventListener("click", () => {
+      window.location.href = "groups.html"; // Redireciona para a tela de grupos
     });
   </script>
 </body>

@@ -9,19 +9,28 @@ let currentRound = 1;
 
 // Função para carregar os personagens do armazenamento (ou servidor)
 async function loadCharactersForEncounter() {
-  try {
-    characters = await window.api.loadCharacters();
+    try {
+      // Carregar os personagens salvos no ElectronStore (certifique-se de que são objetos e não strings)
+      characters = await window.api.loadSelectedCharacters();
+      console.log(characters); // Exibe os objetos de personagens
 
-    // Ordenar os personagens por iniciativa (decrescente)
-    characters.sort((a, b) => b.initiative - a.initiative);
+      // Se os dados carregados estiverem em formato string, converta de volta para objetos
+      // (se necessário, dependendo de como você os salvou)
+      if (typeof characters[0] === 'string') {
+        characters = characters.map(character => JSON.parse(character));
+      }
 
-    // Exibir os personagens
-    renderCharacters();
-  } catch (error) {
-    console.error("Erro ao carregar os personagens para o encontro:", error);
-    alert("Ocorreu um erro ao carregar os personagens.");
+      // Ordenar os personagens por iniciativa (decrescente)
+      characters.sort((a, b) => b.initiative - a.initiative);
+      console.log(characters); // Exibe os objetos ordenados
+
+      // Exibir os personagens
+      renderCharacters();
+    } catch (error) {
+      console.error("Erro ao carregar os personagens para o encontro:", error);
+      alert("Ocorreu um erro ao carregar os personagens.");
+    }
   }
-}
 
 // Função para renderizar os personagens na tela
 function renderCharacters() {

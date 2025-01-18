@@ -6,4 +6,6 @@ contextBridge.exposeInMainWorld('api', {
   addCharacter: (character) => ipcRenderer.invoke('addCharacter', character),
   editCharacter: (index, updatedCharacter) => ipcRenderer.invoke('editCharacter', index, updatedCharacter),
   deleteCharacter: (index) => ipcRenderer.invoke('deleteCharacter', index),
+  saveSelectedCharacters: (characters) => ipcRenderer.invoke('saveSelectedCharacters', characters),
+  loadSelectedCharacters: () => ipcRenderer.invoke('loadSelectedCharacters'),
 });

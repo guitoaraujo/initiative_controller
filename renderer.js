@@ -152,6 +152,17 @@ async function addCharacter(newCharacter) {
   }
 }
 
+function generateUniqueId(characterName, playerName) {
+  const data = `${characterName}-${playerName}-${Date.now()}`;
+  let hash = 0;
+  for (let i = 0; i < data.length; i++) {
+    const char = data.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash |= 0; // Converte para um número de 32 bits
+  }
+  return Math.abs(hash).toString(); // Retorna o hash como string positiva
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   if (window.location.pathname.endsWith('characters.html')) {
     await loadCharacters();
@@ -163,6 +174,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       const imageInput = document.getElementById('image'); // Agora é um input file
       const imageFile = imageInput.files[0]; // Pega o arquivo de imagem selecionado
       const initiative = parseInt(document.getElementById('initiative').value, 10);
+      const id = generateUniqueId(
+        document.getElementById('characterName').value,
+        document.getElementById('playerName').value
+      );
 
       if (playerName && characterName && imageFile) {
         const reader = new FileReader(); // Usado para converter a imagem em base64
@@ -173,7 +188,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             playerName,
             characterName,
             image: e.target.result, // A imagem em formato base64
-            initiative: initiative || 0
+            initiative: initiative || 0,
+            id,
           };
 
           try {
