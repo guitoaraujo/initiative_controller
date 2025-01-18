@@ -4,6 +4,9 @@ let characters = [];
 // Índice do personagem atual
 let currentCharacterIndex = 0;
 
+// Contador de rodadas
+let currentRound = 1;
+
 // Função para carregar os personagens do armazenamento (ou servidor)
 async function loadCharactersForEncounter() {
   try {
@@ -58,23 +61,48 @@ function renderCharacters() {
       container.appendChild(card);
     }
   });
+
+  // Atualiza o contador de rodadas
+  updateRoundCounter();
 }
 
 // Função para avançar para o próximo turno
 function nextTurn() {
-    currentCharacterIndex = (currentCharacterIndex + 1) % characters.length;
-    renderCharacters();
+  currentCharacterIndex = (currentCharacterIndex + 1) % characters.length;
+  renderCharacters();
+
+  // Se todos os turnos foram feitos, incrementa a rodada
+  if (currentCharacterIndex === 0) {
+    currentRound++;
+    updateRoundCounter(); // Atualiza o contador de rodadas
+  }
 }
 
 // Função para voltar para o turno anterior
 function previousTurn() {
-    currentCharacterIndex = (currentCharacterIndex - 1 + characters.length) % characters.length;
-    renderCharacters();
+  // Verifica se estamos no primeiro turno da rodada
+  if (currentCharacterIndex === 0 && currentRound > 1) {
+    currentRound--; // Diminui a rodada se for o primeiro turno
+    updateRoundCounter(); // Atualiza o contador de rodadas
+  }
+
+  // Move para o turno anterior
+  currentCharacterIndex = (currentCharacterIndex - 1 + characters.length) % characters.length;
+  renderCharacters();
+}
+
+// Atualizar o contador de rodadas na tela
+function updateRoundCounter() {
+  document.getElementById('round-counter').textContent = `Rodada: ${currentRound}`;
 }
 
 // Adicionar evento para o botão "Próximo Turno" e "Turno Anterior"
 document.getElementById('next-turn-btn').addEventListener('click', nextTurn);
 document.getElementById('previous-turn-btn').addEventListener('click', previousTurn);
+
+document.getElementById('return-to-menu-btn').addEventListener('click', () => {
+    window.location.href = 'index.html';
+});
 
 // Carregar os personagens ao carregar a página
 document.addEventListener('DOMContentLoaded', loadCharactersForEncounter);

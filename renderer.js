@@ -201,8 +201,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 document.getElementById('return-to-menu-btn').addEventListener('click', () => {
-  if (window.location.pathname.endsWith('characters.html')) {
-    // Substitua "menu.html" pelo caminho correto do seu arquivo de menu principal
     window.location.href = 'index.html';
-  }
 });
