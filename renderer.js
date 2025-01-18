@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const imageFile = imageInput.files[0]; // Pega o arquivo de imagem selecionado
       const initiative = parseInt(document.getElementById('initiative').value, 10);
 
-      if (playerName && characterName && imageFile && !isNaN(initiative)) {
+      if (playerName && characterName && imageFile) {
         const reader = new FileReader(); // Usado para converter a imagem em base64
 
         reader.onload = function(e) {
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             playerName,
             characterName,
             image: e.target.result, // A imagem em formato base64
-            initiative
+            initiative: initiative || 0
           };
 
           try {
@@ -194,9 +194,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Converte a imagem selecionada para base64
         reader.readAsDataURL(imageFile);
       } else {
-        alert("Por favor, preencha todos os campos corretamente!");
+        alert("Os campos: Nome do Jogador, Nome do Personagem e Imagem são obrigatórios.");
       }
     });
   }
 });
 
+document.getElementById('return-to-menu-btn').addEventListener('click', () => {
+  if (window.location.pathname.endsWith('characters.html')) {
+    // Substitua "menu.html" pelo caminho correto do seu arquivo de menu principal
+    window.location.href = 'index.html';
+  }
+});

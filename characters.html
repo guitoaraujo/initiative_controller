@@ -112,21 +112,26 @@
   </style>
 </head>
 <body>
-  <h1>Personagens</h1>
+    <h1>Personagens</h1>
 
-  <!-- Formulário de adicionar personagem -->
-  <div class="input-group">
-    <input type="text" id="playerName" placeholder="Nome do Jogador">
-    <input type="text" id="characterName" placeholder="Nome do Personagem">
-    <input type="file" id="image" accept="image/*" placeholder="Carregar Imagem">
-    <input type="number" id="initiative" placeholder="Valor da Iniciativa">
-    <button id="add-btn">Adicionar Personagem</button>
-  </div>
+    <!-- Botão de retorno ao menu -->
+    <div style="margin: 10px;">
+        <button id="return-to-menu-btn" style="background-color: #6c757d;">Retornar ao Menu</button>
+    </div>
 
-  <!-- Lista de personagens -->
-  <div class="character-list" id="character-list"></div>
+    <!-- Formulário de adicionar personagem -->
+    <div class="input-group">
+        <input type="text" id="playerName" placeholder="Nome do Jogador">
+        <input type="text" id="characterName" placeholder="Nome do Personagem">
+        <input type="file" id="image" accept="image/*" placeholder="Carregar Imagem">
+        <input type="number" id="initiative" placeholder="Valor da Iniciativa">
+        <button id="add-btn">Adicionar Personagem</button>
+    </div>
 
-  <script src="renderer.js"></script>
+    <!-- Lista de personagens -->
+    <div class="character-list" id="character-list"></div>
+
+    <script src="renderer.js"></script>
 </body>
 
 <!-- Modal de Edição de Personagem -->
