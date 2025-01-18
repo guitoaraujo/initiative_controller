@@ -62,12 +62,19 @@ function renderCharacters() {
 
 // Função para avançar para o próximo turno
 function nextTurn() {
-  currentCharacterIndex = (currentCharacterIndex + 1) % characters.length;
-  renderCharacters();
+    currentCharacterIndex = (currentCharacterIndex + 1) % characters.length;
+    renderCharacters();
 }
 
-// Adicionar evento para o botão "Próximo Turno"
+// Função para voltar para o turno anterior
+function previousTurn() {
+    currentCharacterIndex = (currentCharacterIndex - 1 + characters.length) % characters.length;
+    renderCharacters();
+}
+
+// Adicionar evento para o botão "Próximo Turno" e "Turno Anterior"
 document.getElementById('next-turn-btn').addEventListener('click', nextTurn);
+document.getElementById('previous-turn-btn').addEventListener('click', previousTurn);
 
 // Carregar os personagens ao carregar a página
 document.addEventListener('DOMContentLoaded', loadCharactersForEncounter);

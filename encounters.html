@@ -105,20 +105,37 @@
       font-size: 0.9em;
     }
 
-    /* Botão para próximo turno */
-    #next-turn-btn {
-      padding: 10px 20px;
+    /* Botões lado a lado */
+    .turn-buttons {
+      display: flex;
+      gap: 20px;
       margin: 20px;
+    }
+
+    #next-turn-btn, #previous-turn-btn {
+      padding: 10px 20px;
       font-size: 1em;
       color: white;
-      background: #007bff;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      width: 150px;
+    }
+
+    #next-turn-btn {
+      background: #007bff;
+    }
+
+    #previous-turn-btn {
+      background: #ff3333; /* Cor vermelha para o "Turno Anterior" */
     }
 
     #next-turn-btn:hover {
       background: #0056b3;
+    }
+
+    #previous-turn-btn:hover {
+      background: #cc0000; /* Cor vermelha mais escura */
     }
 
     /* Container para os outros personagens */
@@ -152,7 +169,11 @@
     <div id="other-characters-container">
       <div id="character-container"></div>
     </div>
-    <button id="next-turn-btn">Próximo Turno</button>
+    <!-- Botões lado a lado -->
+    <div class="turn-buttons">
+        <button id="previous-turn-btn">Turno Anterior</button>
+        <button id="next-turn-btn">Próximo Turno</button>
+    </div>
 
     <script src="encounters.js"></script>
 </body>
