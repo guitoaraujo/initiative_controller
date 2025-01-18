@@ -1,30 +1,66 @@
-const path = require('path'); // Importa o módulo 'path' para lidar com caminhos
-require('electron-reload')(__dirname, {
-  electron: path.join(__dirname, 'node_modules', '.bin', 'electron'), // Garante que o electron-reload usa o Electron instalado localmente
-});
+import { app, BrowserWindow, ipcMain } from 'electron';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import Store from 'electron-store';
 
-const { app, BrowserWindow } = require('electron');
+// Substituindo __dirname com ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Inicializa o store para armazenar os personagens
+const store = new Store();
 
 let mainWindow;
 
 app.on('ready', () => {
   mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: 1920,
+    height: 1080,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'), // Substitui `renderer.js` pelo padrão de boas práticas: `preload.js`
+      preload: `${__dirname}/preload.js`,  // Certifique-se de usar o preload.js se for necessário
       contextIsolation: true,
-      enableRemoteModule: false, // Remote está desativado por padrão nas versões recentes do Electron
+      enableRemoteModule: false,
     },
   });
 
-  mainWindow.loadFile('index.html');
+  mainWindow.loadFile('index.html');  // Ou a página que você está carregando
 
-  // Abre as ferramentas de desenvolvedor (opcional)
+  // Abrir o console do desenvolvedor
   mainWindow.webContents.openDevTools();
 });
 
-// Fecha o aplicativo quando todas as janelas são fechadas
+// Manipuladores IPC para comunicar com o renderizador
+
+// Carregar personagens
+ipcMain.handle('loadCharacters', () => {
+  return store.get('characters', []);
+});
+
+// Adicionar um personagem
+ipcMain.handle('addCharacter', (event, character) => {
+  const characters = store.get('characters', []);
+  characters.push(character);
+  store.set('characters', characters);
+  return true;
+});
+
+// Editar um personagem
+ipcMain.handle('edit-character', (event, index, updatedCharacter) => {
+  const characters = store.get('characters', []);
+  characters[index] = updatedCharacter;
+  store.set('characters', characters);
+  return true;
+});
+
+// Excluir um personagem
+ipcMain.handle('delete-character', (event, index) => {
+  const characters = store.get('characters', []);
+  characters.splice(index, 1);
+  store.set('characters', characters);
+  return true;
+});
+
+// Fechar o app quando todas as janelas forem fechadas (exceto no Mac)
 app.on('window-all-closed', () => {
   app.quit();
 });

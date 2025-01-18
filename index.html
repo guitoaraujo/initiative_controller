@@ -1,16 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Controlador de Iniciativa</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Controle de Iniciativa RPG</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f3f3f3;
+      margin: 0;
+    }
+
+    .menu {
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin: 10px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Controlador de Iniciativa</h1>
-  <div id="character-container"></div>
-  <button id="next-btn">Próximo Turno</button>
+  <div class="menu">
+    <h1>Menu Principal</h1>
+    <button id="create-characters-btn">Criar Personagens</button>
+  </div>
 
-  <script src="renderer.js"></script>
+  <script>
+    // Navegar para a tela de CRUD de Personagens
+    document.getElementById("create-characters-btn").addEventListener("click", () => {
+      window.location.href = "characters.html"; // Redireciona para a tela de CRUD de personagens
+    });
+  </script>
 </body>
 </html>

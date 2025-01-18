@@ -1,8 +1,9 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 // Exponha APIs seguras ao renderer process
-contextBridge.exposeInMainWorld('electronAPI', {
-  send: (channel, data) => ipcRenderer.send(channel, data),
-  receive: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(...args)),
-  logMessage: (message) => console.log(message),
+contextBridge.exposeInMainWorld('api', {
+  loadCharacters: () => ipcRenderer.invoke('loadCharacters'),
+  addCharacter: (character) => ipcRenderer.invoke('addCharacter', character),
+  editCharacter: (index, updatedCharacter) => ipcRenderer.invoke('edit-character', index, updatedCharacter),
+  deleteCharacter: (index) => ipcRenderer.invoke('delete-character', index),
 });
