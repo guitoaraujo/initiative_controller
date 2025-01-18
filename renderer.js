@@ -102,14 +102,42 @@ async function editCharacter(index) {
 
 // Função para excluir um personagem
 async function deleteCharacter(index) {
-  if (confirm("Tem certeza de que deseja excluir este personagem?")) {
-    try {
-      await window.api.deleteCharacter(index);
-      await loadCharacters();
-    } catch (error) {
-      console.error("Erro ao excluir o personagem:", error);
-      alert("Ocorreu um erro ao excluir o personagem.");
-    }
+  try {
+    // Exibir o modal de confirmação
+    const modal = document.getElementById('confirm-modal');
+    modal.style.display = 'flex'; // Exibir o modal
+
+    // Aguardar a confirmação do usuário
+    const confirmBtn = document.getElementById('confirm-delete-btn');
+    const cancelBtn = document.getElementById('cancel-delete-btn');
+
+    return new Promise((resolve, reject) => {
+      // Quando o usuário confirmar a exclusão
+      confirmBtn.onclick = async () => {
+        try {
+          await window.api.deleteCharacter(index);  // Excluir o personagem
+          await loadCharacters();  // Recarregar a lista de personagens
+
+          // Fechar o modal
+          modal.style.display = 'none';
+          resolve();
+        } catch (error) {
+          console.error("Erro ao excluir o personagem:", error);
+          alert("Ocorreu um erro ao excluir o personagem.");
+          modal.style.display = 'none';  // Fechar o modal
+          reject(error);
+        }
+      };
+
+      // Quando o usuário cancelar a exclusão
+      cancelBtn.onclick = () => {
+        modal.style.display = 'none';  // Fechar o modal
+        reject('Exclusão cancelada');
+      };
+    });
+  } catch (error) {
+    console.error("Erro ao excluir o personagem:", error);
+    alert("Ocorreu um erro ao excluir o personagem.");
   }
 }
 
@@ -120,7 +148,7 @@ async function addCharacter(newCharacter) {
     await window.api.addCharacter(newCharacter);
   } catch (error) {
     console.error("Erro ao adicionar o personagem:", error);
-    throw new Error("Erro ao adicionar o personagem.");
+    alert("Erro ao adicionar o personagem.");
   }
 }
 

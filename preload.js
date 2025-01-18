@@ -4,6 +4,6 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('api', {
   loadCharacters: () => ipcRenderer.invoke('loadCharacters'),
   addCharacter: (character) => ipcRenderer.invoke('addCharacter', character),
-  editCharacter: (index, updatedCharacter) => ipcRenderer.invoke('edit-character', index, updatedCharacter),
-  deleteCharacter: (index) => ipcRenderer.invoke('delete-character', index),
+  editCharacter: (index, updatedCharacter) => ipcRenderer.invoke('editCharacter', index, updatedCharacter),
+  deleteCharacter: (index) => ipcRenderer.invoke('deleteCharacter', index),
 });

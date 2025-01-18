@@ -45,7 +45,7 @@ ipcMain.handle('addCharacter', (event, character) => {
 });
 
 // Editar um personagem
-ipcMain.handle('edit-character', (event, index, updatedCharacter) => {
+ipcMain.handle('editCharacter', (event, index, updatedCharacter) => {
   const characters = store.get('characters', []);
   characters[index] = updatedCharacter;
   store.set('characters', characters);
@@ -53,7 +53,7 @@ ipcMain.handle('edit-character', (event, index, updatedCharacter) => {
 });
 
 // Excluir um personagem
-ipcMain.handle('delete-character', (event, index) => {
+ipcMain.handle('deleteCharacter', (event, index) => {
   const characters = store.get('characters', []);
   characters.splice(index, 1);
   store.set('characters', characters);

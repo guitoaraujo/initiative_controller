@@ -90,6 +90,25 @@
     text-decoration: none;
     cursor: pointer;
     }
+
+    /* Estilo básico para o modal */
+    #confirm-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -132,4 +151,13 @@
       </form>
     </div>
   </div>
+
+<!-- Modal de Confirmação -->
+<div id="confirm-modal" style="display:none;">
+    <div class="modal-content">
+        <p>Tem certeza de que deseja excluir este personagem?</p>
+        <button id="confirm-delete-btn">Confirmar</button>
+        <button id="cancel-delete-btn">Cancelar</button>
+    </div>
+</div>
 </html>
