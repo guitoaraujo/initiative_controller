@@ -30,27 +30,70 @@ async function loadCharacters() {
 // Função para editar um personagem
 async function editCharacter(index) {
   try {
+    // Carregar os personagens
     const characters = await window.api.loadCharacters();
     const character = characters[index];
 
-    const newPlayerName = prompt("Novo nome do jogador", character.playerName);
-    const newCharacterName = prompt("Novo nome do personagem", character.characterName);
-    const newImage = prompt("Nova URL da imagem", character.image);
-    const newInitiative = prompt("Novo valor da iniciativa", character.initiative);
+    // Abertura do Modal de Edição
+    const modal = document.getElementById("editModal");
+    const closeModal = document.getElementById("close-modal");
 
-    if (newPlayerName && newCharacterName && newImage && newInitiative) {
-      const updatedCharacter = {
-        playerName: newPlayerName,
-        characterName: newCharacterName,
-        image: newImage,
-        initiative: parseInt(newInitiative, 10)
-      };
+    // Preenche os campos do formulário com os dados atuais
+    document.getElementById("editPlayerName").value = character.playerName;
+    document.getElementById("editCharacterName").value = character.characterName;
+    document.getElementById("editInitiative").value = character.initiative;
 
-      await window.api.editCharacter(index, updatedCharacter);
-      await loadCharacters();
-    } else {
-      alert("Todos os campos são requeridos");
-    }
+    // Exibe o modal
+    modal.style.display = "block";
+
+    // Fecha o modal
+    closeModal.onclick = () => {
+      modal.style.display = "none";
+    };
+
+    // Quando o formulário de edição for enviado
+    document.getElementById("editForm").onsubmit = async (e) => {
+      e.preventDefault();
+
+      const newPlayerName = document.getElementById("editPlayerName").value;
+      const newCharacterName = document.getElementById("editCharacterName").value;
+      const newInitiative = parseInt(document.getElementById("editInitiative").value, 10);
+      let newImage = character.image; // Se não mudar, mantém a imagem original
+
+      // Verifica se o usuário escolheu uma nova imagem
+      const fileInput = document.getElementById("editImage");
+      if (fileInput.files.length > 0) {
+        const imageFile = fileInput.files[0];
+        const reader = new FileReader();
+
+        reader.onload = async () => {
+          newImage = reader.result; // A imagem convertida para base64
+          await updateCharacter();
+        };
+
+        reader.readAsDataURL(imageFile); // Lê o arquivo como base64
+      } else {
+        await updateCharacter();
+      }
+
+      // Função para atualizar o personagem
+      async function updateCharacter() {
+        if (newPlayerName && newCharacterName && !isNaN(newInitiative)) {
+          const updatedCharacter = {
+            playerName: newPlayerName,
+            characterName: newCharacterName,
+            image: newImage,
+            initiative: newInitiative,
+          };
+
+          await window.api.editCharacter(index, updatedCharacter);
+          await loadCharacters(); // Recarrega os personagens
+          modal.style.display = "none"; // Fecha o modal
+        } else {
+          alert("Por favor, preencha todos os campos corretamente!");
+        }
+      }
+    };
   } catch (error) {
     console.error("Erro ao editar o personagem:", error);
     alert("Ocorreu um erro ao editar o personagem.");
