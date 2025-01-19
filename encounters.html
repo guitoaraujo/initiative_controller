@@ -186,6 +186,79 @@
       border-radius: 5px;
     }
 
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-characters {
+    margin: 20px 0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  .character-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .character-name {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .initiative-input {
+    width: 60px;
+    padding: 5px;
+    font-size: 14px;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .btn-save {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .btn-cancel {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .btn-save:hover, .btn-cancel:hover {
+    opacity: 0.9;
+  }
   </style>
 </head>
 <body>
@@ -215,4 +288,18 @@
 
     <script src="encounters.js"></script>
 </body>
+
+<!-- Modal para edição de iniciativas -->
+<div id="initiative-edit-modal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <h2>Editar Iniciativas</h2>
+    <div id="modal-content" class="modal-characters">
+      <!-- Os campos de entrada para cada personagem serão gerados dinamicamente pelo JavaScript -->
+    </div>
+    <div class="modal-actions">
+      <button id="save-initiative-btn" class="btn-save">Salvar</button>
+      <button id="cancel-initiative-btn" class="btn-cancel" onclick="document.getElementById('initiative-edit-modal').style.display = 'none';">Cancelar</button>
+    </div>
+  </div>
+</div>
 </html>

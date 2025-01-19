@@ -11,8 +11,10 @@ let currentRound = 1;
 async function loadCharactersForEncounter() {
     try {
       // Carregar os personagens salvos no ElectronStore (certifique-se de que são objetos e não strings)
-      characters = await window.api.loadSelectedCharacters();
-      console.log(characters); // Exibe os objetos de personagens
+      if(characters.length === 0) {
+        console.log("FIRST LOAD", characters); // Exibe os objetos de personagens
+        // characters = await window.api.loadSelectedCharacters();
+      }
 
       // Se os dados carregados estiverem em formato string, converta de volta para objetos
       // (se necessário, dependendo de como você os salvou)
@@ -22,7 +24,7 @@ async function loadCharactersForEncounter() {
 
       // Ordenar os personagens por iniciativa (decrescente)
       characters.sort((a, b) => b.initiative - a.initiative);
-      console.log(characters); // Exibe os objetos ordenados
+      // console.log("SORTED LOAD", characters); // Exibe os objetos ordenados
 
       // Exibir os personagens
       renderCharacters();
@@ -76,7 +78,7 @@ function renderCharacters() {
 }
 
 // Função para avançar para o próximo turno
-function nextTurn() {
+async function nextTurn() {
   currentCharacterIndex = (currentCharacterIndex + 1) % characters.length;
   renderCharacters();
 
@@ -84,6 +86,61 @@ function nextTurn() {
   if (currentCharacterIndex === 0) {
     currentRound++;
     updateRoundCounter(); // Atualiza o contador de rodadas
+
+    // Abrir o modal para edição de initiative
+    const modal = document.getElementById('initiative-edit-modal');
+    const saveBtn = document.getElementById('save-initiative-btn');
+    const modalContent = document.getElementById('modal-content');
+
+    // Preencher o modal com inputs para editar a initiative de cada personagem
+    modalContent.innerHTML = ''; // Limpa o conteúdo do modal
+    characters.forEach((character, index) => {
+      const characterRow = document.createElement('div');
+      characterRow.className = 'character-row';
+
+      const nameLabel = document.createElement('span');
+      nameLabel.textContent = character.characterName;
+      nameLabel.className = 'character-name';
+
+      const initiativeInput = document.createElement('input');
+      initiativeInput.type = 'number';
+      initiativeInput.value = character.initiative;
+      initiativeInput.className = 'initiative-input';
+      initiativeInput.dataset.index = index;
+
+      characterRow.appendChild(nameLabel);
+      characterRow.appendChild(initiativeInput);
+      modalContent.appendChild(characterRow);
+    });
+
+    // Exibir o modal
+    modal.style.display = 'flex';
+
+    // Aguardar o clique no botão salvar
+    return new Promise((resolve, reject) => {
+      saveBtn.onclick = () => {
+        try {
+          console.log("SAVE", characters);
+          // Salvar as iniciativas atualizadas
+          const inputs = document.querySelectorAll('.initiative-input');
+          inputs.forEach(async input => {
+            const index = input.dataset.index;
+            characters[index].initiative = parseInt(input.value, 10);
+            // await window.api.editCharacter(index, characters[index]);
+          });
+          console.log("AFTER SAVE", characters);
+          loadCharactersForEncounter();
+
+          // Fechar o modal
+          modal.style.display = 'none';
+          resolve();
+        } catch (error) {
+          console.error("Erro ao salvar iniciativas:", error);
+          alert("Erro ao salvar iniciativas. Tente novamente.");
+          reject(error);
+        }
+      };
+    });
   }
 }
 
