@@ -12,8 +12,8 @@ async function loadCharactersForEncounter() {
     try {
       // Carregar os personagens salvos no ElectronStore (certifique-se de que são objetos e não strings)
       if(characters.length === 0) {
-        console.log("FIRST LOAD", characters); // Exibe os objetos de personagens
-        // characters = await window.api.loadSelectedCharacters();
+        characters = await window.api.loadSelectedCharacters();
+        // console.log("FIRST LOAD", characters); // Exibe os objetos de personagens
       }
 
       // Se os dados carregados estiverem em formato string, converta de volta para objetos

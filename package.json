@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,25 @@
   "description": "",
   "devDependencies": {
     "electron": "^34.0.0",
+    "electron-builder": "^25.1.8",
     "electron-reload": "^2.0.0-alpha.1"
+  },
+  "dependencies": {
+    "electron-store": "^10.0.0"
+  },
+  "build": {
+    "appId": "initiative_controller_0_0_1",
+    "productName": "Controlador de Iniciativa do Negão",
+    "files": [
+      "*.js",
+      "*.html",
+      "*.css",
+      "*.json",
+      "assets/**/*",
+      "node_modules"
+    ],
+    "directories": {
+      "output": "../releases/release"
+    }
   }
 }

@@ -60,11 +60,12 @@ function renderCharacters(characters) {
 
 // Evento para iniciar o encontro com os personagens selecionados
 document.getElementById('start-encounter-btn').addEventListener('click', async function () {
+  // console.log("BEFORE SAVE SEL", selectedCharacters);
   if (selectedCharacters.length > 1) {
     try {
       // Armazena os personagens selecionados no Electron Store
       await window.api.saveSelectedCharacters(selectedCharacters);
-      console.log(selectedCharacters); // Exibe os personagens selecionados no console
+      // console.log("SAVE SEL", selectedCharacters); // Exibe os personagens selecionados no console
 
       // Redireciona para a tela de encontros
       window.location.href = "encounters.html";
