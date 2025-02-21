@@ -91,6 +91,17 @@ document.querySelectorAll('.character-list').forEach(div => {
       // Verifica se o clique não foi diretamente no checkbox para evitar conflitos
       if (event.target !== checkbox) {
         checkbox.checked = !checkbox.checked;
+
+        const character = JSON.parse(event.target.querySelector('input[type="checkbox"]').getAttribute('data-character')); // Obtém o objeto completo do personagem
+        if (checkbox.checked) {
+          selectedCharacters.push(character); // Adiciona o personagem completo na lista
+        } else {
+          const index = selectedCharacters.findIndex(selected => selected.characterName + selected.playerName === character.characterName + character.playerName);
+          if (index > -1) {
+            selectedCharacters.splice(index, 1); // Remove o personagem da lista
+          }
+        }
+        console.log(selectedCharacters); // Verifica o array de personagens selecionados
       }
     }
   });
