@@ -83,5 +83,18 @@ document.getElementById("return-to-menu-btn").addEventListener("click", () => {
   window.location.href = "index.html"; // Redireciona para o menu
 });
 
+document.querySelectorAll('.character-list').forEach(div => {
+  div.addEventListener('click', function (event) {
+
+    const checkbox = event.target.querySelector('.character-checkbox');
+    if(checkbox) {
+      // Verifica se o clique não foi diretamente no checkbox para evitar conflitos
+      if (event.target !== checkbox) {
+        checkbox.checked = !checkbox.checked;
+      }
+    }
+  });
+});
+
 // Carrega os personagens ao carregar a página
 document.addEventListener('DOMContentLoaded', loadCharacters);
