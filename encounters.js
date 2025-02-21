@@ -86,61 +86,6 @@ async function nextTurn() {
   if (currentCharacterIndex === 0) {
     currentRound++;
     updateRoundCounter(); // Atualiza o contador de rodadas
-
-    // Abrir o modal para edição de initiative
-    const modal = document.getElementById('initiative-edit-modal');
-    const saveBtn = document.getElementById('save-initiative-btn');
-    const modalContent = document.getElementById('modal-content');
-
-    // Preencher o modal com inputs para editar a initiative de cada personagem
-    modalContent.innerHTML = ''; // Limpa o conteúdo do modal
-    characters.forEach((character, index) => {
-      const characterRow = document.createElement('div');
-      characterRow.className = 'character-row';
-
-      const nameLabel = document.createElement('span');
-      nameLabel.textContent = character.characterName;
-      nameLabel.className = 'character-name';
-
-      const initiativeInput = document.createElement('input');
-      initiativeInput.type = 'number';
-      initiativeInput.value = character.initiative;
-      initiativeInput.className = 'initiative-input';
-      initiativeInput.dataset.index = index;
-
-      characterRow.appendChild(nameLabel);
-      characterRow.appendChild(initiativeInput);
-      modalContent.appendChild(characterRow);
-    });
-
-    // Exibir o modal
-    modal.style.display = 'flex';
-
-    // Aguardar o clique no botão salvar
-    return new Promise((resolve, reject) => {
-      saveBtn.onclick = () => {
-        try {
-          console.log("SAVE", characters);
-          // Salvar as iniciativas atualizadas
-          const inputs = document.querySelectorAll('.initiative-input');
-          inputs.forEach(async input => {
-            const index = input.dataset.index;
-            characters[index].initiative = parseInt(input.value, 10);
-            // await window.api.editCharacter(index, characters[index]);
-          });
-          console.log("AFTER SAVE", characters);
-          loadCharactersForEncounter();
-
-          // Fechar o modal
-          modal.style.display = 'none';
-          resolve();
-        } catch (error) {
-          console.error("Erro ao salvar iniciativas:", error);
-          alert("Erro ao salvar iniciativas. Tente novamente.");
-          reject(error);
-        }
-      };
-    });
   }
 }
 
@@ -162,6 +107,63 @@ function updateRoundCounter() {
   document.getElementById('round-counter').textContent = `Rodada: ${currentRound}`;
 }
 
+function editInitiative(){
+      // Abrir o modal para edição de initiative
+      const modal = document.getElementById('initiative-edit-modal');
+      const saveBtn = document.getElementById('save-initiative-btn');
+      const modalContent = document.getElementById('modal-content');
+
+      // Preencher o modal com inputs para editar a initiative de cada personagem
+      modalContent.innerHTML = ''; // Limpa o conteúdo do modal
+      characters.forEach((character, index) => {
+        const characterRow = document.createElement('div');
+        characterRow.className = 'character-row';
+
+        const nameLabel = document.createElement('span');
+        nameLabel.textContent = character.characterName;
+        nameLabel.className = 'character-name';
+
+        const initiativeInput = document.createElement('input');
+        initiativeInput.type = 'number';
+        initiativeInput.value = character.initiative;
+        initiativeInput.className = 'initiative-input';
+        initiativeInput.dataset.index = index;
+
+        characterRow.appendChild(nameLabel);
+        characterRow.appendChild(initiativeInput);
+        modalContent.appendChild(characterRow);
+      });
+
+      // Exibir o modal
+      modal.style.display = 'flex';
+
+      // Aguardar o clique no botão salvar
+      return new Promise((resolve, reject) => {
+        saveBtn.onclick = () => {
+          try {
+            console.log("SAVE", characters);
+            // Salvar as iniciativas atualizadas
+            const inputs = document.querySelectorAll('.initiative-input');
+            inputs.forEach(async input => {
+              const index = input.dataset.index;
+              characters[index].initiative = parseInt(input.value, 10);
+              // await window.api.editCharacter(index, characters[index]);
+            });
+            console.log("AFTER SAVE", characters);
+            loadCharactersForEncounter();
+
+            // Fechar o modal
+            modal.style.display = 'none';
+            resolve();
+          } catch (error) {
+            console.error("Erro ao salvar iniciativas:", error);
+            alert("Erro ao salvar iniciativas. Tente novamente.");
+            reject(error);
+          }
+        };
+      });
+}
+
 // Adicionar evento para o botão "Próximo Turno" e "Turno Anterior"
 document.getElementById('next-turn-btn').addEventListener('click', nextTurn);
 document.getElementById('previous-turn-btn').addEventListener('click', previousTurn);
@@ -169,6 +171,7 @@ document.getElementById('previous-turn-btn').addEventListener('click', previousT
 document.getElementById('return-to-menu-btn').addEventListener('click', () => {
     window.location.href = 'index.html';
 });
+document.getElementById('config-btn-btn').addEventListener('click', editInitiative);
 
 // Carregar os personagens ao carregar a página
 document.addEventListener('DOMContentLoaded', loadCharactersForEncounter);
