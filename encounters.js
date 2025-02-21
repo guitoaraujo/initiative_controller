@@ -43,9 +43,9 @@ function renderCharacters() {
     <div class="character-card highlight">
       <img src="${currentCharacter.image}" alt="${currentCharacter.characterName}" class="character-image-large">
       <div class="character-info">
-        <h3>${currentCharacter.characterName}</h3>
-        <p>Jogador: ${currentCharacter.playerName}</p>
-        <p>Iniciativa: ${currentCharacter.initiative}</p>
+        <h2>${currentCharacter.characterName}</h2>
+        <h3>Iniciativa: ${currentCharacter.initiative}</h3>
+        <span>Jogador: ${currentCharacter.playerName}</span>
       </div>
     </div>
   `;
@@ -57,15 +57,16 @@ function renderCharacters() {
   characters.forEach((character, index) => {
     if (index !== currentCharacterIndex) {
       const card = document.createElement('div');
-      card.className = 'character-card small';
+      card.className = index === 1 ? 'character-card small-dark' : 'character-card small';
 
       card.innerHTML = `
         <div class="small-card-content">
           <img src="${character.image}" alt="${character.characterName}" class="character-image-small">
           <div class="character-details">
-            <strong>${character.characterName}</strong>
-            <span>Jogador: ${character.playerName}</span>
-            <span>Iniciativa: ${character.initiative}</span>
+            <h2>${character.characterName}</h2>
+          </div>
+          <div class="character-details-initiative">
+            <h2>${character.initiative}</h2>
           </div>
         </div>
       `;

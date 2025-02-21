@@ -100,10 +100,24 @@
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
+    .character-card.small-dark {
+      flex: 0 0 auto; /* Permite layout horizontal sem quebra */
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      width: 300px;
+      height: 80px;
+      background: darkgray;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
     .small-card-content {
       display: flex;
       align-items: center;
       gap: 10px;
+      width: 100%;
     }
 
     .character-image-small {
@@ -118,6 +132,13 @@
       display: flex;
       flex-direction: column;
       font-size: 0.9em;
+    }
+
+    .character-details-initiative {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.9em;
+      margin-left: auto;
     }
 
     /* Botões lado a lado */
