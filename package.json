@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "initiative_controller",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,7 +21,7 @@
     "electron-store": "^10.0.0"
   },
   "build": {
-    "appId": "initiative_controller_0_0_1",
+    "appId": "initiative_controller_0_0_2",
     "productName": "Controlador de Iniciativa do Negão",
     "files": [
       "*.js",
