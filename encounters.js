@@ -3,6 +3,7 @@ let characters = [];
 
 // Índice do personagem atual
 let currentCharacterIndex = 0;
+let nextCharacterIndex = currentCharacterIndex+1;
 
 // Contador de rodadas
 let currentRound = 1;
@@ -57,7 +58,9 @@ function renderCharacters() {
   characters.forEach((character, index) => {
     if (index !== currentCharacterIndex) {
       const card = document.createElement('div');
-      card.className = index === 1 ? 'character-card small-dark' : 'character-card small';
+      console.log(nextCharacterIndex)
+      console.log(index)
+      card.className = nextCharacterIndex === index ? 'character-card small-dark' : 'character-card small';
 
       card.innerHTML = `
         <div class="small-card-content">
@@ -81,11 +84,14 @@ function renderCharacters() {
 // Função para avançar para o próximo turno
 async function nextTurn() {
   currentCharacterIndex = (currentCharacterIndex + 1) % characters.length;
+  nextCharacterIndex = currentCharacterIndex+1;
+
   renderCharacters();
 
   // Se todos os turnos foram feitos, incrementa a rodada
   if (currentCharacterIndex === 0) {
     currentRound++;
+    nextCharacterIndex = 1
     updateRoundCounter(); // Atualiza o contador de rodadas
   }
 }
@@ -109,60 +115,60 @@ function updateRoundCounter() {
 }
 
 function editInitiative(){
-      // Abrir o modal para edição de initiative
-      const modal = document.getElementById('initiative-edit-modal');
-      const saveBtn = document.getElementById('save-initiative-btn');
-      const modalContent = document.getElementById('modal-content');
+  // Abrir o modal para edição de initiative
+  const modal = document.getElementById('initiative-edit-modal');
+  const saveBtn = document.getElementById('save-initiative-btn');
+  const modalContent = document.getElementById('modal-content');
 
-      // Preencher o modal com inputs para editar a initiative de cada personagem
-      modalContent.innerHTML = ''; // Limpa o conteúdo do modal
-      characters.forEach((character, index) => {
-        const characterRow = document.createElement('div');
-        characterRow.className = 'character-row';
+  // Preencher o modal com inputs para editar a initiative de cada personagem
+  modalContent.innerHTML = ''; // Limpa o conteúdo do modal
+  characters.forEach((character, index) => {
+    const characterRow = document.createElement('div');
+    characterRow.className = 'character-row';
 
-        const nameLabel = document.createElement('span');
-        nameLabel.textContent = character.characterName;
-        nameLabel.className = 'character-name';
+    const nameLabel = document.createElement('span');
+    nameLabel.textContent = character.characterName;
+    nameLabel.className = 'character-name';
 
-        const initiativeInput = document.createElement('input');
-        initiativeInput.type = 'number';
-        initiativeInput.value = character.initiative;
-        initiativeInput.className = 'initiative-input';
-        initiativeInput.dataset.index = index;
+    const initiativeInput = document.createElement('input');
+    initiativeInput.type = 'number';
+    initiativeInput.value = character.initiative;
+    initiativeInput.className = 'initiative-input';
+    initiativeInput.dataset.index = index;
 
-        characterRow.appendChild(nameLabel);
-        characterRow.appendChild(initiativeInput);
-        modalContent.appendChild(characterRow);
-      });
+    characterRow.appendChild(nameLabel);
+    characterRow.appendChild(initiativeInput);
+    modalContent.appendChild(characterRow);
+  });
 
-      // Exibir o modal
-      modal.style.display = 'flex';
+  // Exibir o modal
+  modal.style.display = 'flex';
 
-      // Aguardar o clique no botão salvar
-      return new Promise((resolve, reject) => {
-        saveBtn.onclick = () => {
-          try {
-            console.log("SAVE", characters);
-            // Salvar as iniciativas atualizadas
-            const inputs = document.querySelectorAll('.initiative-input');
-            inputs.forEach(async input => {
-              const index = input.dataset.index;
-              characters[index].initiative = parseInt(input.value, 10);
-              // await window.api.editCharacter(index, characters[index]);
-            });
-            console.log("AFTER SAVE", characters);
-            loadCharactersForEncounter();
+  // Aguardar o clique no botão salvar
+  return new Promise((resolve, reject) => {
+    saveBtn.onclick = () => {
+      try {
+        console.log("SAVE", characters);
+        // Salvar as iniciativas atualizadas
+        const inputs = document.querySelectorAll('.initiative-input');
+        inputs.forEach(async input => {
+          const index = input.dataset.index;
+          characters[index].initiative = parseInt(input.value, 10);
+          // await window.api.editCharacter(index, characters[index]);
+        });
+        console.log("AFTER SAVE", characters);
+        loadCharactersForEncounter();
 
-            // Fechar o modal
-            modal.style.display = 'none';
-            resolve();
-          } catch (error) {
-            console.error("Erro ao salvar iniciativas:", error);
-            alert("Erro ao salvar iniciativas. Tente novamente.");
-            reject(error);
-          }
-        };
-      });
+        // Fechar o modal
+        modal.style.display = 'none';
+        resolve();
+      } catch (error) {
+        console.error("Erro ao salvar iniciativas:", error);
+        alert("Erro ao salvar iniciativas. Tente novamente.");
+        reject(error);
+      }
+    };
+  });
 }
 
 // Adicionar evento para o botão "Próximo Turno" e "Turno Anterior"
